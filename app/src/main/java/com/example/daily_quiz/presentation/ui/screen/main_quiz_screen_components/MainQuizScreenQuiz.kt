@@ -1,4 +1,4 @@
-package com.example.daily_quiz.presentation.ui.screen
+package com.example.daily_quiz.presentation.ui.screen.main_quiz_screen_components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,7 +21,7 @@ import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import com.example.daily_quiz.utils.cleanHtml
 
 @Composable
-fun QuizScreen(
+fun MainQuizScreenQuiz(
     viewModel: QuizViewModel,
 //    onQuizComplete: () -> Unit
 ) {
