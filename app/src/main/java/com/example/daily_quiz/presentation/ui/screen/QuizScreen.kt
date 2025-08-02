@@ -23,15 +23,15 @@ import com.example.daily_quiz.utils.cleanHtml
 @Composable
 fun QuizScreen(
     viewModel: QuizViewModel,
-    onQuizComplete: () -> Unit
+//    onQuizComplete: () -> Unit
 ) {
 //    val currentQuestion by remember { derivedStateOf { viewModel.currentQuestion } }
     val currentQuestion by remember { derivedStateOf { viewModel.currentQuestion } }
 
-    if (viewModel.isQuizCompleted) {
-        onQuizComplete()
-        return
-    }
+//    if (viewModel.isQuizCompleted) {
+//        onQuizComplete()
+//        return
+//    }
 
     currentQuestion?.let { question ->
         Column(

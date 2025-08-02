@@ -10,25 +10,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.daily_quiz.R
-import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 
 @Composable
 fun ResultScreen(
-    viewModel: QuizViewModel,
-    onRestartQuiz: () -> Unit
+//    viewModel: QuizViewModel,
+    score: Int,
+    onRestartQuiz: () -> Unit,
+    onExit: () -> Unit,
 ) {
-    val score by remember { derivedStateOf { viewModel.calculateScore() } }
-    val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
+//    val score by remember { derivedStateOf { viewModel.calculateScore() } }
+//    val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
     val correctAnswersTitle = when (score) {
         5 -> stringResource(R.string.fiveOf5correct_answers_title)
         4 -> stringResource(R.string.fourOf5correct_answers_title)
@@ -60,7 +58,8 @@ fun ResultScreen(
         )
 
         Text(
-            text = "Вы ответили правильно на $score из $totalQuestions вопросов",
+//            text = "Вы ответили правильно на $score из $totalQuestions вопросов",
+            text = "Вы ответили правильно на $score вопросов",
 //            style = MaterialTheme.typography.h6,
             textAlign = TextAlign.Center
         )
@@ -91,12 +90,14 @@ fun ResultScreen(
 
         Button(
             onClick = {
-                viewModel.resetQuiz()
+//                viewModel.resetQuiz()
                 onRestartQuiz()
             },
             modifier = Modifier.fillMaxWidth(0.7f)
         ) {
             Text(text = "Начать заново")
         }
+
+        Button(onClick = onExit) { Text("Выйти") }
     }
 }

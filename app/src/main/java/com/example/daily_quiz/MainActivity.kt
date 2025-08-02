@@ -15,7 +15,7 @@ import com.example.daily_quiz.presentation.ui.screen.StartScreen
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import com.example.daily_quiz.ui.theme.Daily_QuizTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.daily_quiz.presentation.ui.navigation.QuizNavGraph
+import com.example.daily_quiz.presentation.navigation.QuizNavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
