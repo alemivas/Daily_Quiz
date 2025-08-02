@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.daily_quiz.presentation.ui.screen.QuizScreen
+import com.example.daily_quiz.presentation.ui.screen.ResultScreen
 import com.example.daily_quiz.presentation.ui.screen.StartScreen
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
@@ -35,7 +36,12 @@ fun QuizNavGraph() {
             )
         }
         composable("results") {
-            // TODO: Экран результатов
+            ResultScreen(
+                viewModel = viewModel,
+                onRestartQuiz = {
+                    navController.popBackStack("start", inclusive = false)
+                }
+            )
         }
     }
 }

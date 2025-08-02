@@ -15,6 +15,8 @@ class QuizViewModel(
     private val repository: QuizRepository = QuizRepositoryImpl()
 ) : ViewModel() {
 
+    private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
+
     // Состояния
     private val _questions = mutableStateListOf<Question>()
     private val _currentQuestionIndex = mutableStateOf(0)
@@ -68,6 +70,7 @@ class QuizViewModel(
 
     fun selectAnswer(answer: String) {
         _selectedAnswer.value = answer
+        _userAnswers[_currentQuestionIndex.value] = answer
     }
 
     fun moveToNextQuestion() {
@@ -77,5 +80,18 @@ class QuizViewModel(
         } else {
             _isQuizCompleted.value = true
         }
+    }
+
+    fun calculateScore(): Int {
+        return _questions.mapIndexed { index, question ->
+            if (_userAnswers[index] == question.correctAnswer) 1 else 0
+        }.sum()
+    }
+
+    fun resetQuiz() {
+        _currentQuestionIndex.value = 0
+        _selectedAnswer.value = null
+        _userAnswers.clear()
+        _isQuizCompleted.value = false
     }
 }
