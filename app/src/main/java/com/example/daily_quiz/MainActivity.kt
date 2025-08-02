@@ -11,7 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.daily_quiz.presentation.ui.screen.StartScreen
+import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import com.example.daily_quiz.ui.theme.Daily_QuizTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,29 +22,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Daily_QuizTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                val viewModel: QuizViewModel = viewModel()
+                StartScreen(
+                    isLoading = viewModel.isLoading.value,
+                    isError = viewModel.isError.value,
+                    onStartQuiz = { viewModel.loadQuestions() }
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Daily_QuizTheme {
-        Greeting("Android")
     }
 }
