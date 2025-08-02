@@ -15,8 +15,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.daily_quiz.R
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 
@@ -27,6 +29,22 @@ fun ResultScreen(
 ) {
     val score by remember { derivedStateOf { viewModel.calculateScore() } }
     val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
+    val correctAnswersTitle = when (score) {
+        5 -> stringResource(R.string.fiveOf5correct_answers_title)
+        4 -> stringResource(R.string.fourOf5correct_answers_title)
+        3 -> stringResource(R.string.threeOf5correct_answers_title)
+        2 -> stringResource(R.string.twoOf5correct_answers_title)
+        1 -> stringResource(R.string.oneOf5correct_answers_title)
+        else -> stringResource(R.string.zeroOf5correct_answers_title)
+    }
+    val correctAnswersSubTitle = when (score) {
+        5 -> stringResource(R.string.fiveOf5correct_answers_subTitle)
+        4 -> stringResource(R.string.fourOf5correct_answers_subTitle)
+        3 -> stringResource(R.string.threeOf5correct_answers_subTitle)
+        2 -> stringResource(R.string.twoOf5correct_answers_subTitle)
+        1 -> stringResource(R.string.oneOf5correct_answers_subTitle)
+        else -> stringResource(R.string.zeroOf5correct_answers_subTitle)
+    }
 
     Column(
         modifier = Modifier
@@ -44,6 +62,14 @@ fun ResultScreen(
         Text(
             text = "Вы ответили правильно на $score из $totalQuestions вопросов",
 //            style = MaterialTheme.typography.h6,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = correctAnswersTitle,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = correctAnswersSubTitle,
             textAlign = TextAlign.Center
         )
 

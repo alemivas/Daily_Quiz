@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Daily_Quiz</string>
+
+    <string name="fiveOf5correct_answers_title">Идеально!</string>
+    <string name="fiveOf5correct_answers_subTitle">5/5 — вы ответили на всё правильно. Это блестящий результат!</string>
+
+    <string name="fourOf5correct_answers_title">Почти идеально!</string>
+    <string name="fourOf5correct_answers_subTitle">4/5 — очень близко к совершенству. Ещё один шаг!</string>
+
+    <string name="threeOf5correct_answers_title">Хороший результат!</string>
+    <string name="threeOf5correct_answers_subTitle">3/5 — вы на верном пути. Продолжайте тренироваться!</string>
+
+    <string name="twoOf5correct_answers_title">Есть над чем поработать</string>
+    <string name="twoOf5correct_answers_subTitle">2/5 — не расстраивайтесь, попробуйте ещё раз!</string>
+
+    <string name="oneOf5correct_answers_title">Сложный вопрос?</string>
+    <string name="oneOf5correct_answers_subTitle">1/5 — иногда просто не ваш день. Следующая попытка будет лучше!</string>
+
+    <string name="zeroOf5correct_answers_title">Бывает и так!</string>
+    <string name="zeroOf5correct_answers_subTitle">0/5 — не отчаивайтесь. Начните заново и удивите себя!</string>
 </resources>
