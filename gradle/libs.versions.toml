@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.0"
+commonsText = "1.10.0"
 converterGson = "2.9.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
@@ -20,6 +21,7 @@ adsMobileSdk = "0.18.0-beta01"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commonsText" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

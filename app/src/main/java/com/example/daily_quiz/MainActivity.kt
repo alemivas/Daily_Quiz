@@ -15,6 +15,7 @@ import com.example.daily_quiz.presentation.ui.screen.StartScreen
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import com.example.daily_quiz.ui.theme.Daily_QuizTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.daily_quiz.presentation.ui.navigation.QuizNavGraph
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,12 +23,15 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Daily_QuizTheme {
-                val viewModel: QuizViewModel = viewModel()
-                StartScreen(
-                    isLoading = viewModel.isLoading.value,
-                    isError = viewModel.isError.value,
-                    onStartQuiz = { viewModel.loadQuestions() }
-                )
+
+                QuizNavGraph()
+
+//                val viewModel: QuizViewModel = viewModel()
+//                StartScreen(
+//                    isLoading = viewModel.isLoading.value,
+//                    isError = viewModel.isError.value,
+//                    onStartQuiz = { viewModel.loadQuestions() }
+//                )
             }
         }
     }

@@ -72,4 +72,7 @@ dependencies {
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
+
+    // Clean Html
+    implementation (libs.commons.text)
 }
