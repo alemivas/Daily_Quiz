@@ -1,14 +1,14 @@
 package com.example.daily_quiz.presentation.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.daily_quiz.data.repository.QuizRepositoryImpl
+import com.example.daily_quiz.domain.model.Question
 import com.example.daily_quiz.domain.repository.QuizRepository
 import kotlinx.coroutines.launch
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
-import com.example.daily_quiz.domain.model.Question
 
 
 class QuizViewModel(
@@ -40,6 +40,18 @@ class QuizViewModel(
 
     private val _isError = mutableStateOf(false)
     val isError: State<Boolean> = _isError
+
+
+
+
+//    private val _isQuizStart = mutableStateOf(false)
+//    val isQuizStart: State<Boolean> = _isQuizStart
+    val isQuizStart = mutableStateOf(false)
+
+
+
+
+
 
     fun loadQuestions() {
         viewModelScope.launch {

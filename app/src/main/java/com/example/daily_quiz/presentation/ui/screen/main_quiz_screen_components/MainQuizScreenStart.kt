@@ -1,4 +1,4 @@
-package com.example.daily_quiz.presentation.ui.screen
+package com.example.daily_quiz.presentation.ui.screen.main_quiz_screen_components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,19 +8,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 @Composable
-fun StartScreen(
+fun MainQuizScreenStart(
     isLoading: Boolean,          // Передаётся из ViewModel
     isError: Boolean,           // Флаг ошибки
-    onStartQuiz: () -> Unit     // Запуск викторины
+    onStartQuiz: () -> Unit,     // Запуск викторины
+//    isQuizStart: Boolean,
+    viewModel: QuizViewModel,
 ) {
     Column(
         modifier = Modifier
@@ -47,7 +49,8 @@ fun StartScreen(
             }
 
             Button(
-                onClick = onStartQuiz,
+//                onClick = onStartQuiz,
+                onClick = {viewModel.isQuizStart.value = true},
                 enabled = !isLoading,  // Блокировка кнопки при загрузке
                 modifier = Modifier
                     .fillMaxWidth(0.8f)

@@ -1,4 +1,4 @@
-package com.example.daily_quiz.presentation.ui.screen
+package com.example.daily_quiz.presentation.ui.screen.main_quiz_screen_components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,7 +23,7 @@ import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 
 @Composable
-fun ResultScreen(
+fun MainQuizScreenResult(
     viewModel: QuizViewModel,
     onRestartQuiz: () -> Unit
 ) {
