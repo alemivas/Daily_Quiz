@@ -14,6 +14,10 @@ interface QuizHistoryDao {
     @Query("SELECT * FROM quiz_results ORDER BY date DESC")
     fun getAllResultsWithQuestions(): Flow<List<QuizResultWithQuestions>>
 
+    @Transaction
+    @Query("SELECT * FROM quiz_results WHERE id = :resultId")
+    suspend fun getResultById(resultId: Int): QuizResultWithQuestions?
+
     @Insert
     suspend fun insertResult(result: QuizResult): Long
 

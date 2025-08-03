@@ -15,6 +15,9 @@ import com.example.daily_quiz.data.repository.QuizRepositoryImpl
 import com.example.daily_quiz.domain.model.Question
 import com.example.daily_quiz.domain.repository.QuizRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -181,5 +184,14 @@ class QuizViewModel(
         return historyDao.getAllResultsWithQuestions()
             .firstOrNull()
             ?.find { it.result.id == resultId }
+    }
+
+    private val _currentResult = MutableStateFlow<QuizResultWithQuestions?>(null)
+    val currentResult: StateFlow<QuizResultWithQuestions?> = _currentResult.asStateFlow()
+
+    fun loadResultDetails(resultId: Int) {
+        viewModelScope.launch {
+            _currentResult.value = historyDao.getResultById(resultId)
+        }
     }
 }
