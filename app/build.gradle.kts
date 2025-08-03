@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-// TODO
+
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
@@ -70,7 +70,6 @@ dependencies {
 
     // Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-//    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Navigation Compose
     implementation(libs.androidx.navigation.compose)
