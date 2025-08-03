@@ -1,19 +1,28 @@
 package com.example.daily_quiz.presentation.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daily_quiz.data.local.QuizResult
+import com.example.daily_quiz.data.local.QuizResultDao
 import com.example.daily_quiz.data.repository.QuizRepositoryImpl
 import com.example.daily_quiz.domain.model.Question
 import com.example.daily_quiz.domain.repository.QuizRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 
 class QuizViewModel(
-    private val repository: QuizRepository = QuizRepositoryImpl()
+    private val repository: QuizRepository = QuizRepositoryImpl(),
+    private val resultDao: QuizResultDao
 ) : ViewModel() {
+
+    val results: Flow<List<QuizResult>> = resultDao.getAllResults()
 
     private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
 
@@ -21,7 +30,7 @@ class QuizViewModel(
     private val _questions = mutableStateListOf<Question>()
     private val _currentQuestionIndex = mutableStateOf(0)
     private val _selectedAnswer = mutableStateOf<String?>(null)
-//    private val _isQuizCompleted = mutableStateOf(false)
+    private val _isQuizCompleted = mutableStateOf(false)
 
     // Геттеры
     val currentQuestion: Question?
@@ -32,21 +41,14 @@ class QuizViewModel(
         get() = _questions.size
     val selectedAnswer: String?
         get() = _selectedAnswer.value
-//    val isQuizCompleted: Boolean
-//        get() = _isQuizCompleted.value
+    val isQuizCompleted: Boolean
+        get() = _isQuizCompleted.value
 
     private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> = _isLoading
 
     private val _isError = mutableStateOf(false)
     val isError: State<Boolean> = _isError
-
-    val hasNextQuestion: Boolean
-        get() = _currentQuestionIndex.value < _questions.size - 1
-
-    val isQuizCompleted: Boolean
-//        get() = _questions.isNotEmpty() && !hasNextQuestion && _selectedAnswer.value != null
-        get() = _questions.isNotEmpty() && !hasNextQuestion && (_selectedAnswer.value != null)
 
     fun loadQuestions() {
         viewModelScope.launch {
@@ -57,7 +59,7 @@ class QuizViewModel(
                 _questions.clear()
                 _questions.addAll(repository.getQuestions())
                 _currentQuestionIndex.value = 0
-//                _isQuizCompleted.value = false
+                _isQuizCompleted.value = false
             } catch(e: Exception) {
                 _isError.value = true
             } finally {
@@ -81,12 +83,11 @@ class QuizViewModel(
     }
 
     fun moveToNextQuestion() {
-//        if (_currentQuestionIndex.value < _questions.size - 1) {
-        if (hasNextQuestion) {
+        if (_currentQuestionIndex.value < _questions.size - 1) {
             _currentQuestionIndex.value++
             _selectedAnswer.value = null
         } else {
-//            _isQuizCompleted.value = true
+            _isQuizCompleted.value = true
         }
     }
 
@@ -100,6 +101,19 @@ class QuizViewModel(
         _currentQuestionIndex.value = 0
         _selectedAnswer.value = null
         _userAnswers.clear()
-//        _isQuizCompleted.value = false
+        _isQuizCompleted.value = false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveResult(correctAnswers: Int, totalQuestions: Int) {
+        viewModelScope.launch {
+            resultDao.insert(
+                QuizResult(
+                    date = LocalDateTime.now(),
+                    correctAnswers = correctAnswers,
+                    totalQuestions = totalQuestions
+                )
+            )
+        }
     }
 }

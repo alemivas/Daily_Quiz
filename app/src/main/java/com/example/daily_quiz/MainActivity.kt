@@ -1,30 +1,68 @@
 package com.example.daily_quiz
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.daily_quiz.presentation.ui.screen.StartScreen
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.daily_quiz.data.local.QuizDatabase
+import com.example.daily_quiz.data.repository.QuizRepositoryImpl
+import com.example.daily_quiz.presentation.navigation.QuizNavGraph
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import com.example.daily_quiz.ui.theme.Daily_QuizTheme
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.daily_quiz.presentation.navigation.QuizNavGraph
 
 class MainActivity : ComponentActivity() {
+//    private val viewModel: QuizViewModel by viewModels(factoryProducer = {
+//        object : ViewModelProvider.Factory {
+//            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//                val database = QuizDatabase.getDatabase(this@MainActivity)
+//                return QuizViewModel(
+//                    repository = QuizRepositoryImpl(),
+//                    resultDao = database.resultDao()
+//                ) as T
+//            }
+//        }
+//    })
+
+    private val viewModel: QuizViewModel by viewModels {
+        val database = QuizDatabase.getDatabase(this)
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return QuizViewModel(
+                    repository = QuizRepositoryImpl(),
+                    resultDao = database.resultDao()
+                ) as T
+            }
+        }
+    }
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
+//            val application = application as QuizApplication
+//            val viewModel: QuizViewModel = viewModel(
+//                factory = object : ViewModelProvider.Factory {
+//                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//                        return QuizViewModel(
+//                            repository = QuizRepositoryImpl(),
+//                            resultDao = application.database.resultDao()
+//                        ) as T
+//                    }
+//                }
+//            )
+
             Daily_QuizTheme {
 
-                QuizNavGraph()
+                QuizNavGraph(viewModel)
 
 //                val viewModel: QuizViewModel = viewModel()
 //                StartScreen(
