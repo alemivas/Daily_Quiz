@@ -8,7 +8,7 @@
 |-----------------|-----------|------------|---------|----------------------------------------------------------|
 | ![Start Screen](screenshots/start.png) | ![Quiz Screen](screenshots/quiz.png) | ![Results Screen](screenshots/results.png) | ![History Screen](screenshots/history.png) | ![Detail History Screen](screenshots/detail_history.png) |
 
-![Start Screen](screenshots/Screen_recording.mp4)
+![Видео](screenshots/Screen_recording.mp4)
 
 ## 📌 Функционал
 
