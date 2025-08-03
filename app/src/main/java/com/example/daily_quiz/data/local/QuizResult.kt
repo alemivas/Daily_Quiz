@@ -8,6 +8,17 @@ import java.time.LocalDateTime
 data class QuizResult(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: LocalDateTime,
-    val correctAnswers: Int,
-    val totalQuestions: Int
+    val totalCorrect: Int,
+    val totalQuestions: Int,
+
+)
+
+@Entity(tableName = "quiz_questions")
+data class QuizQuestion(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val resultId: Int, // Связь с QuizResult
+    val questionText: String,
+    val correctAnswer: String,
+    val userAnswer: String,
+    val isCorrect: Boolean
 )

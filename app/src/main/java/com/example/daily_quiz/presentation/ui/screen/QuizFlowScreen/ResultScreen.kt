@@ -37,7 +37,8 @@ fun ResultScreen(
     val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
 
     LaunchedEffect(Unit) {
-        viewModel.saveResult(score, totalQuestions)
+//        viewModel.saveResult(score, totalQuestions)
+        viewModel.saveFullQuizResult(score)
     }
 
     val correctAnswersTitle = when (score) {

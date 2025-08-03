@@ -34,7 +34,8 @@ class MainActivity : ComponentActivity() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return QuizViewModel(
                     repository = QuizRepositoryImpl(),
-                    resultDao = database.resultDao()
+//                    resultDao = database.resultDao()
+                    historyDao = database.historyDao()
                 ) as T
             }
         }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.daily_quiz.data.local.QuizQuestion
 import com.example.daily_quiz.data.local.QuizResult
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 import java.time.format.DateTimeFormatter
@@ -29,9 +30,11 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun HistoryScreen(
     viewModel: QuizViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onDetailClick: (resultId: Int) -> Unit // Добавляем колбэк
 ) {
-    val results by viewModel.results.collectAsState(initial = emptyList())
+//    val results by viewModel.results.collectAsState(initial = emptyList())
+    val history by viewModel.fullHistory.collectAsState(initial = emptyList())
 
     Column(modifier = Modifier.padding(16.dp)) {
         TopAppBar(
@@ -44,8 +47,16 @@ fun HistoryScreen(
         )
 
         LazyColumn {
-            items(results) { result ->
-                ResultItem(result)
+//            items(results) { result ->
+//                ResultItem(result)
+//            }
+            items(history) { resultWithQuestions ->
+                HistoryItem(
+                    result = resultWithQuestions.result,
+                    questions = resultWithQuestions.questions,
+//                    onItemClick = { /* Открываем детали */ }
+                    onItemClick = { onDetailClick(resultWithQuestions.result.id) } // Передаем ID
+                )
             }
         }
     }
@@ -53,11 +64,18 @@ fun HistoryScreen(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-private fun ResultItem(result: QuizResult) {
+//private fun ResultItem(result: QuizResult) {
+private fun HistoryItem(
+    result: QuizResult,
+    questions: List<QuizQuestion>,
+    onItemClick: () -> Unit
+) {
+//    Card(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        onClick = onItemClick
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -65,7 +83,7 @@ private fun ResultItem(result: QuizResult) {
 //                style = MaterialTheme.typography.caption
             )
             Text(
-                text = "Правильных ответов: ${result.correctAnswers}/${result.totalQuestions}",
+                text = "Правильных ответов: ${result.totalCorrect}/${result.totalQuestions}",
 //                style = MaterialTheme.typography.body1
             )
         }

@@ -7,22 +7,29 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daily_quiz.data.local.QuizHistoryDao
+import com.example.daily_quiz.data.local.QuizQuestion
 import com.example.daily_quiz.data.local.QuizResult
-import com.example.daily_quiz.data.local.QuizResultDao
+import com.example.daily_quiz.data.local.QuizResultWithQuestions
 import com.example.daily_quiz.data.repository.QuizRepositoryImpl
 import com.example.daily_quiz.domain.model.Question
 import com.example.daily_quiz.domain.repository.QuizRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 
 class QuizViewModel(
     private val repository: QuizRepository = QuizRepositoryImpl(),
-    private val resultDao: QuizResultDao
+//    private val resultDao: QuizResultDao
+    private val historyDao: QuizHistoryDao
 ) : ViewModel() {
 
-    val results: Flow<List<QuizResult>> = resultDao.getAllResults()
+//    val results: Flow<List<QuizResult>> = resultDao.getAllResults()
+
+    // Получение полной истории
+    val fullHistory: Flow<List<QuizResultWithQuestions>> = historyDao.getAllResultsWithQuestions()
 
     private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
 
@@ -50,6 +57,10 @@ class QuizViewModel(
     private val _isError = mutableStateOf(false)
     val isError: State<Boolean> = _isError
 
+//    // Храним все вопросы и ответы
+//    private val _allQuestions = mutableStateListOf<Question>()
+//    private val _userAnswers = mutableMapOf<Int, String>() // key - индекс вопроса, value - ответ
+
     fun loadQuestions() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -58,6 +69,7 @@ class QuizViewModel(
             try {
                 _questions.clear()
                 _questions.addAll(repository.getQuestions())
+                _userAnswers.clear()
                 _currentQuestionIndex.value = 0
                 _isQuizCompleted.value = false
             } catch(e: Exception) {
@@ -104,16 +116,70 @@ class QuizViewModel(
         _isQuizCompleted.value = false
     }
 
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun saveResult(correctAnswers: Int, totalQuestions: Int) {
+//        viewModelScope.launch {
+//            resultDao.insert(
+//                QuizResult(
+//                    date = LocalDateTime.now(),
+////                    correctAnswers = correctAnswers,
+//                    totalCorrect = correctAnswers,
+//                    totalQuestions = totalQuestions
+//                )
+//            )
+//        }
+//    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveResult(correctAnswers: Int, totalQuestions: Int) {
+    fun saveFullQuizResult(
+        correctAnswers: Int,
+        questions: List<Question> = _questions,
+        userAnswers: Map<Int, String> = _userAnswers,  // key - question index, value - answer
+    ) {
         viewModelScope.launch {
-            resultDao.insert(
+//            // Сохраняем основной результат
+//            val correctCount = questions.countIndexed { index, question ->
+//                userAnswers[index] == question.correctAnswer
+//            }
+
+            val resultId = historyDao.insertResult(
                 QuizResult(
                     date = LocalDateTime.now(),
-                    correctAnswers = correctAnswers,
-                    totalQuestions = totalQuestions
+//                    totalCorrect = correctCount,
+                    totalCorrect = correctAnswers,
+                    totalQuestions = questions.size
                 )
             )
+
+            // Сохраняем все вопросы
+            val quizQuestions = questions.mapIndexed { index, question ->
+                QuizQuestion(
+                    resultId = resultId.toInt(),
+                    questionText = question.text,
+                    correctAnswer = question.correctAnswer,
+                    userAnswer = userAnswers[index] ?: "",
+                    isCorrect = userAnswers[index] == question.correctAnswer
+                )
+            }
+
+            historyDao.insertQuestions(quizQuestions)
         }
+    }
+
+//    fun getResultById(resultId: Int): QuizResultWithQuestions? {
+//        // Для простоты - берем из кеша (если history уже загружен)
+//        return _cachedHistory.value?.find { it.result.id == resultId }
+//    }
+
+//    // Добавляем кеширование:
+//    private val _cachedHistory = MutableStateFlow<List<QuizResultWithQuestions>?>(null)
+//    val fullHistory: Flow<List<QuizResultWithQuestions>> = historyDao.getAllResultsWithQuestions()
+//        .onEach { _cachedHistory.value = it } // Кешируем результаты
+//        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
+
+    suspend fun getResultById(resultId: Int): QuizResultWithQuestions? {
+        return historyDao.getAllResultsWithQuestions()
+            .firstOrNull()
+            ?.find { it.result.id == resultId }
     }
 }
