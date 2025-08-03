@@ -8,9 +8,6 @@
 |-----------------|-----------|------------|---------|----------------------------------------------------------|
 | ![Start Screen](screenshots/start.png) | ![Quiz Screen](screenshots/quiz.png) | ![Results Screen](screenshots/results.png) | ![History Screen](screenshots/history.png) | ![Detail History Screen](screenshots/detail_history.png) |
 
-![Видео](screenshots/Screen_recording.mp4)
-
-
 https://github.com/user-attachments/assets/55d1893f-271f-4721-8104-f40a57b27dab
 
 
