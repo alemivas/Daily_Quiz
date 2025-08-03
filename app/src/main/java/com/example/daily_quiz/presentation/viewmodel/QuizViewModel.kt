@@ -1,19 +1,28 @@
 package com.example.daily_quiz.presentation.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.daily_quiz.data.local.QuizResult
+import com.example.daily_quiz.data.local.QuizResultDao
 import com.example.daily_quiz.data.repository.QuizRepositoryImpl
-import com.example.daily_quiz.domain.repository.QuizRepository
-import kotlinx.coroutines.launch
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateListOf
 import com.example.daily_quiz.domain.model.Question
+import com.example.daily_quiz.domain.repository.QuizRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 
 class QuizViewModel(
-    private val repository: QuizRepository = QuizRepositoryImpl()
+    private val repository: QuizRepository = QuizRepositoryImpl(),
+    private val resultDao: QuizResultDao
 ) : ViewModel() {
+
+    val results: Flow<List<QuizResult>> = resultDao.getAllResults()
 
     private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
 
@@ -93,5 +102,18 @@ class QuizViewModel(
         _selectedAnswer.value = null
         _userAnswers.clear()
         _isQuizCompleted.value = false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveResult(correctAnswers: Int, totalQuestions: Int) {
+        viewModelScope.launch {
+            resultDao.insert(
+                QuizResult(
+                    date = LocalDateTime.now(),
+                    correctAnswers = correctAnswers,
+                    totalQuestions = totalQuestions
+                )
+            )
+        }
     }
 }

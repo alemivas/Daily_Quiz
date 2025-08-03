@@ -1,19 +1,23 @@
-package com.example.daily_quiz.presentation.ui.navigation
+package com.example.daily_quiz.presentation.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.daily_quiz.presentation.ui.screen.QuizScreen
-import com.example.daily_quiz.presentation.ui.screen.ResultScreen
-import com.example.daily_quiz.presentation.ui.screen.StartScreen
+import com.example.daily_quiz.presentation.ui.screen.HistoryScreen
+import com.example.daily_quiz.presentation.ui.screen.QuizFlowScreen.QuizScreen
+import com.example.daily_quiz.presentation.ui.screen.QuizFlowScreen.ResultScreen
+import com.example.daily_quiz.presentation.ui.screen.QuizFlowScreen.StartScreen
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun QuizNavGraph() {
+fun QuizNavGraph(viewModel: QuizViewModel) {
     val navController = rememberNavController()
-    val viewModel: QuizViewModel = viewModel()
+//    val viewModel: QuizViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -40,7 +44,16 @@ fun QuizNavGraph() {
                 viewModel = viewModel,
                 onRestartQuiz = {
                     navController.popBackStack("start", inclusive = false)
-                }
+                },
+                onHistory = { navController.navigate("history") }
+            )
+        }
+
+
+        composable("history") {
+            HistoryScreen(
+                viewModel = viewModel(),
+                onBack = { navController.popBackStack() }
             )
         }
     }

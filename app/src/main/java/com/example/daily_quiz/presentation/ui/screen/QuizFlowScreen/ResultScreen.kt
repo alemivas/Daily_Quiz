@@ -1,5 +1,7 @@
-package com.example.daily_quiz.presentation.ui.screen
+package com.example.daily_quiz.presentation.ui.screen.QuizFlowScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,13 +25,21 @@ import com.example.daily_quiz.R
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ResultScreen(
     viewModel: QuizViewModel,
-    onRestartQuiz: () -> Unit
+    onRestartQuiz: () -> Unit,
+
+    onHistory: () -> Unit
 ) {
     val score by remember { derivedStateOf { viewModel.calculateScore() } }
     val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
+
+    LaunchedEffect(Unit) {
+        viewModel.saveResult(score, totalQuestions)
+    }
+
     val correctAnswersTitle = when (score) {
         5 -> stringResource(R.string.fiveOf5correct_answers_title)
         4 -> stringResource(R.string.fourOf5correct_answers_title)
@@ -98,5 +109,7 @@ fun ResultScreen(
         ) {
             Text(text = "Начать заново")
         }
+
+        Button(onClick = onHistory) { Text("История") }
     }
 }
