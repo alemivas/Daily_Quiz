@@ -3,6 +3,9 @@ package com.example.daily_quiz.presentation.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -107,14 +110,28 @@ fun QuizNavGraph(
             "history_detail/{resultId}",
             arguments = listOf(navArgument("resultId") { type = NavType.IntType })
         ) { backStackEntry ->
-                val resultId = backStackEntry.arguments?.getInt("resultId") ?: return@composable
+//                val resultId = backStackEntry.arguments?.getInt("resultId") ?: return@composable
+                val resultId = backStackEntry.arguments?.getInt("resultId") ?: 0
 //                val viewModel: QuizViewModel = viewModel()
+//            val result = viewModel.getResultById(resultId)
 
+            LaunchedEffect(resultId) {
+                viewModel.loadResultDetails(resultId)
+            }
+
+            val result by viewModel.currentResult.collectAsState()
+
+//            HistoryDetailScreen(
+////                    viewModel = viewModel,
+////                    resultId = resultId,
+//                    onBack = { navController.popBackStack() }
+//            )
+            result?.let {
                 HistoryDetailScreen(
-                    viewModel = viewModel,
-                    resultId = resultId,
+                    resultWithQuestions = it,
                     onBack = { navController.popBackStack() }
                 )
             }
+        }
     }
 }

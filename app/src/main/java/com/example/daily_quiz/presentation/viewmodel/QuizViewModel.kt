@@ -161,7 +161,8 @@ class QuizViewModel(
                     questionText = question.text,
                     correctAnswer = question.correctAnswer,
                     userAnswer = userAnswers[index] ?: "",
-                    isCorrect = userAnswers[index] == question.correctAnswer
+                    isCorrect = userAnswers[index] == question.correctAnswer,
+                    allAnswers = (question.incorrectAnswers + question.correctAnswer).shuffled()
                 )
             }
 

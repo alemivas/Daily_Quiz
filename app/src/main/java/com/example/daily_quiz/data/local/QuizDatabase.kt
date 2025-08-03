@@ -10,7 +10,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [QuizResult::class, QuizQuestion::class],
-    version = 2, // Увеличиваем версию
+    version = 3,
     exportSchema = true
 )
 
