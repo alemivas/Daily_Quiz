@@ -37,7 +37,6 @@ fun ResultScreen(
     val totalQuestions by remember { derivedStateOf { viewModel.totalQuestions } }
 
     LaunchedEffect(Unit) {
-//        viewModel.saveResult(score, totalQuestions)
         viewModel.saveFullQuizResult(score)
     }
 
@@ -67,13 +66,11 @@ fun ResultScreen(
     ) {
         Text(
             text = "Результаты",
-//            style = MaterialTheme.typography.h4,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Text(
             text = "Вы ответили правильно на $score из $totalQuestions вопросов",
-//            style = MaterialTheme.typography.h6,
             textAlign = TextAlign.Center
         )
         Text(
@@ -84,20 +81,6 @@ fun ResultScreen(
             text = correctAnswersSubTitle,
             textAlign = TextAlign.Center
         )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Визуализация прогресса
-//        CircularProgressIndicator(
-//            progress = score.toFloat() / totalQuestions.toFloat(),
-//            modifier = Modifier.size(120.dp),
-//            strokeWidth = 8.dp,
-//            color = if (score.toFloat() / totalQuestions.toFloat() > 0.7f) {
-//                Color.Green
-//            } else {
-//                MaterialTheme.colors.primary
-//            }
-//        )
 
         Spacer(modifier = Modifier.height(32.dp))
 

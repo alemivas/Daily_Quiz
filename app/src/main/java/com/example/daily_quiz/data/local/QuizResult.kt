@@ -12,7 +12,6 @@ data class QuizResult(
     val date: LocalDateTime,
     val totalCorrect: Int,
     val totalQuestions: Int,
-
 )
 
 @Entity(tableName = "quiz_questions")
@@ -23,7 +22,6 @@ data class QuizQuestion(
     val correctAnswer: String,
     val userAnswer: String,
     val isCorrect: Boolean,
-//    val allAnswers: List<String> // Все варианты ответов
 
     @ColumnInfo(name = "all_answers")
     @TypeConverters(Converters::class)

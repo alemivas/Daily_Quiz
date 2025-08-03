@@ -7,7 +7,7 @@ interface ApiService {
     @GET("api.php")
     suspend fun getQuestions(
         @Query("amount") amount: Int = 5,
-        @Query("category") category: Int = 9,  // Например, категория "General Knowledge"
+        @Query("category") category: Int = 9,
         @Query("difficulty") difficulty: String = "easy",
         @Query("type") type: String = "multiple"
     ): QuestionResponse

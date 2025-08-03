@@ -50,35 +50,9 @@ import java.time.format.DateTimeFormatter
 fun HistoryScreen(
     viewModel: QuizViewModel,
     onBack: () -> Unit,
-    onDetailClick: (/*resultId: */Int) -> Unit
+    onDetailClick: (Int) -> Unit
 ) {
-//    val results by viewModel.results.collectAsState(initial = emptyList())
     val history by viewModel.fullHistory.collectAsState(initial = emptyList())
-
-//    Column(modifier = Modifier.padding(16.dp)) {
-//        TopAppBar(
-//            title = { Text("История прохождений") },
-//            navigationIcon = {
-//                IconButton(onClick = onBack) {
-//                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
-//                }
-//            }
-//        )
-//
-//        LazyColumn {
-////            items(results) { result ->
-////                ResultItem(result)
-////            }
-//            items(history) { resultWithQuestions ->
-//                HistoryItem(
-//                    result = resultWithQuestions.result,
-//                    questions = resultWithQuestions.questions,
-////                    onItemClick = { /* Открываем детали */ }
-//                    onItemClick = { onDetailClick(resultWithQuestions.result.id) } // Передаем ID
-//                )
-//            }
-//        }
-//    }
 
     Scaffold(
         topBar = {
@@ -104,41 +78,13 @@ fun HistoryScreen(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-//private fun ResultItem(result: QuizResult) {
-private fun HistoryItem(
-    result: QuizResult,
-    questions: List<QuizQuestion>,
-    onItemClick: () -> Unit
-) {
-//    Card(
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        onClick = onItemClick
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "Дата: ${result.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}",
-//                style = MaterialTheme.typography.caption
-            )
-            Text(
-                text = "Правильных ответов: ${result.totalCorrect}/${result.totalQuestions}",
-//                style = MaterialTheme.typography.body1
-            )
-        }
-    }
-}
-
 @Composable
 private fun EmptyHistoryMessage(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text("История прохождений пуста"/*, style = MaterialTheme.typography.h6*/)
+        Text("История прохождений пуста")
     }
 }
 
@@ -174,7 +120,6 @@ private fun HistoryListItem(
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
-//        elevation = 2.dp,
         shape = MaterialTheme.shapes.medium,
         onClick = onClick
     ) {
@@ -188,18 +133,14 @@ private fun HistoryListItem(
             ) {
                 Text(
                     text = result.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")),
-//                    style = MaterialTheme.typography.body2,
-//                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                 )
 
                 Text(
                     text = "${result.totalCorrect}/${result.totalQuestions}",
-//                    style = MaterialTheme.typography.subtitle1,
                     fontWeight = FontWeight.Bold,
                     color = if (result.totalCorrect.toFloat() / result.totalQuestions > 0.7f) {
                         Color.Green
                     } else {
-//                        MaterialTheme.colors.primary
                         Color.Black
                     }
                 )
@@ -232,8 +173,6 @@ private fun HistoryListItem(
             if (questions.size > 2) {
                 Text(
                     text = "и ещё ${questions.size - 2} вопросов...",
-//                    style = MaterialTheme.typography.caption,
-//                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }

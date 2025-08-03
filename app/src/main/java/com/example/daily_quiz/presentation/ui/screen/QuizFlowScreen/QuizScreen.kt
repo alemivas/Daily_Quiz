@@ -25,7 +25,6 @@ fun QuizScreen(
     viewModel: QuizViewModel,
     onQuizComplete: () -> Unit
 ) {
-//    val currentQuestion by remember { derivedStateOf { viewModel.currentQuestion } }
     val currentQuestion by remember { derivedStateOf { viewModel.currentQuestion } }
 
     if (viewModel.isQuizCompleted) {
@@ -43,15 +42,12 @@ fun QuizScreen(
             // Шапка с номером вопроса
             Text(
                 text = "Вопрос ${viewModel.currentQuestionNumber} из ${viewModel.totalQuestions}",
-//                style = MaterialTheme.typography.h6
             )
 
             // Текст вопроса
             Text(
-//                text = Html.fromHtml(question.text).toString(),
                 text = question.text.cleanHtml(),
                 modifier = Modifier.padding(vertical = 24.dp),
-//                style = MaterialTheme.typography.body1
             )
 
             // Варианты ответов
@@ -62,7 +58,6 @@ fun QuizScreen(
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 answers.forEach { answer ->
                     RadioButtonItem(
-//                        text = Html.fromHtml(answer).toString(),
                         text = answer.cleanHtml(),
                         isSelected = answer == viewModel.selectedAnswer,
                         onSelect = { viewModel.selectAnswer(answer) }
@@ -74,7 +69,6 @@ fun QuizScreen(
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
                     text = "Вернуться к предыдущим вопросам нельзя",
-//                    style = MaterialTheme.typography.caption
                 )
 
                 Button(

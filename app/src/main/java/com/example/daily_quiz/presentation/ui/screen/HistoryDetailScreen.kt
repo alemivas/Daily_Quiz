@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -43,36 +42,8 @@ import com.example.daily_quiz.utils.cleanHtml
 @Composable
 fun HistoryDetailScreen(
     resultWithQuestions: QuizResultWithQuestions,
-//    viewModel: QuizViewModel,
-//    resultId: Int,
-//    resultWithQuestions: QuizResultWithQuestions,
     onBack: () -> Unit
 ) {
-//    // Загружаем данные при входе
-//    LaunchedEffect(resultId) {
-//        viewModel.loadResultDetails(resultId)
-//    }
-//
-//    val result by viewModel.currentResult.collectAsState()
-
-//    Column {
-//        TopAppBar(
-//            title = { Text("Прохождение от ${resultWithQuestions.result.date.format(
-//                DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))}") },
-//            navigationIcon = {
-//                IconButton(onClick = onBack) {
-//                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
-//                }
-//            }
-//        )
-//
-//        LazyColumn {
-//            items(resultWithQuestions.questions) { question ->
-//                QuestionResultItem(question)
-//            }
-//        }
-//    }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -85,91 +56,17 @@ fun HistoryDetailScreen(
             )
         }
     ) { padding ->
-//        when {
-//            result == null -> {
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(padding),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    CircularProgressIndicator()
-//                }
-//            }
-//            else -> {
-//                HistoryDetailContent(
-//                    result = result!!,
-//                    modifier = Modifier.padding(padding)
-//                )
-//            }
-//        }
         LazyColumn(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
         ) {
-//            item {
-//                ResultHeader(resultWithQuestions.result)
-//            }
-
             items(resultWithQuestions.questions) { question ->
                 QuestionWithAnswers(
                     question = question,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                 )
             }
-        }
-    }
-}
-
-//@Composable
-//fun QuestionResultItem(question: QuizQuestion) {
-//    Card {
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            Text(question.questionText, fontWeight = FontWeight.Bold)
-//            Text("Правильный ответ: ${question.correctAnswer}")
-//            Text("Ваш ответ: ${question.userAnswer}",
-//                color = if (question.isCorrect) Color.Green else Color.Red)
-//        }
-//    }
-//}
-
-@Composable
-private fun HistoryDetailContent(
-    result: QuizResultWithQuestions,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(modifier = modifier) {
-//        item {
-//            ResultHeader(result.result)
-//        }
-        items(result.questions) { question ->
-            QuestionDetailItem(question)
-        }
-    }
-}
-
-@Composable
-private fun QuestionDetailItem(question: QuizQuestion) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-//        elevation = 4.dp
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = question.questionText,
-//                style = MaterialTheme.typography.body1,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Ваш ответ: ${question.userAnswer}",
-                color = if (question.isCorrect) Color.Green else Color.Red
-//                color = Color.Red
-            )
-            Text(text = "Правильный ответ: ${question.correctAnswer}")
         }
     }
 }
@@ -183,8 +80,6 @@ fun QuestionWithAnswers(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp),
-//        elevation = 4.dp,
-//        backgroundColor = MaterialTheme.colors.surface
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -192,7 +87,6 @@ fun QuestionWithAnswers(
             // Текст вопроса
             Text(
                 text = question.questionText.cleanHtml(),
-//                style = MaterialTheme.typography.subtitle1,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -216,7 +110,6 @@ fun QuestionWithAnswers(
                 else "✗ Вы ошиблись",
                 color = if (question.isCorrect) Color(0xFF4CAF50)
                 else Color(0xFFF44336),
-//                style = MaterialTheme.typography.body2,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
@@ -233,7 +126,6 @@ fun AnswerItem(
         isSelected && isCorrect -> Color(0xFFE8F5E9).copy(alpha = 0.8f)
         isSelected -> Color(0xFFFFEBEE).copy(alpha = 0.8f)
         isCorrect -> Color(0xFFE8F5E9).copy(alpha = 0.4f)
-//        else -> MaterialTheme.colors.surface
         else -> Color.Black
     }
 
@@ -263,10 +155,8 @@ fun AnswerItem(
         Icon(
             imageVector = when {
                 isSelected && isCorrect -> Icons.Default.CheckCircle
-//                isSelected -> Icons.Default.HighlightOff
                 isSelected -> Icons.Default.CheckCircle
                 isCorrect -> Icons.Default.Check
-//                else -> Icons.Default.RadioButtonUnchecked
                 else -> Icons.Default.CheckCircle
             },
             contentDescription = null,
@@ -274,7 +164,6 @@ fun AnswerItem(
                 isSelected && isCorrect -> Color(0xFF4CAF50)
                 isSelected -> Color(0xFFF44336)
                 isCorrect -> Color(0xFF4CAF50).copy(alpha = 0.5f)
-//                else -> MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
                 else -> Color.Black
             },
             modifier = Modifier.size(20.dp)
@@ -285,7 +174,6 @@ fun AnswerItem(
         // Текст ответа
         Text(
             text = answer.cleanHtml(),
-//            style = MaterialTheme.typography.body1,
             modifier = Modifier.weight(1f)
         )
     }

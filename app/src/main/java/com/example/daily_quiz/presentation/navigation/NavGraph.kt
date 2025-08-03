@@ -25,9 +25,6 @@ fun QuizNavGraph(
     viewModel: QuizViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-//    val navController = rememberNavController()
-//    val viewModel: QuizViewModel = viewModel()
-
     NavHost(
         navController = navController,
         startDestination = "start"
@@ -58,7 +55,6 @@ fun QuizNavGraph(
             )
         }
 
-
         composable("history") {
             HistoryScreen(
                 viewModel = viewModel,
@@ -69,51 +65,11 @@ fun QuizNavGraph(
             )
         }
 
-//        composable(
-//            "history_detail/{resultId}",
-//            arguments = listOf(navArgument("resultId") { type = NavType.IntType })
-//        ) { backStackEntry ->
-//            val resultId = backStackEntry.arguments?.getInt("resultId") ?: 0
-////            val result = viewModel.fullHistory.first { it.result.id == resultId }
-//            val result = viewModel.getResultById(resultId)
-//            if (result != null) {
-//                HistoryDetailScreen(
-//                    resultWithQuestions = result,
-//                    onBack = { navController.popBackStack() }
-//                )
-//            }
-//        }
-
-//        composable("history_detail/{resultId}") { backStackEntry ->
-//            val resultId = backStackEntry.arguments?.getInt("resultId") ?: 0
-//            var result by remember { mutableStateOf<QuizResultWithQuestions?>(null) }
-//            var isLoading by remember { mutableStateOf(true) }
-//
-//            LaunchedEffect(resultId) {
-//                result = viewModel.getResultById(resultId)
-//                isLoading = false
-//            }
-//
-//            if (isLoading) {
-//                CircularProgressIndicator()
-//            } else {
-//                result?.let {
-//                    HistoryDetailScreen(
-//                        resultWithQuestions = it,
-//                        onBack = { navController.popBackStack() }
-//                    )
-//                }
-//            }
-//        }
-
         composable(
             "history_detail/{resultId}",
             arguments = listOf(navArgument("resultId") { type = NavType.IntType })
         ) { backStackEntry ->
-//                val resultId = backStackEntry.arguments?.getInt("resultId") ?: return@composable
                 val resultId = backStackEntry.arguments?.getInt("resultId") ?: 0
-//                val viewModel: QuizViewModel = viewModel()
-//            val result = viewModel.getResultById(resultId)
 
             LaunchedEffect(resultId) {
                 viewModel.loadResultDetails(resultId)
@@ -121,11 +77,6 @@ fun QuizNavGraph(
 
             val result by viewModel.currentResult.collectAsState()
 
-//            HistoryDetailScreen(
-////                    viewModel = viewModel,
-////                    resultId = resultId,
-//                    onBack = { navController.popBackStack() }
-//            )
             result?.let {
                 HistoryDetailScreen(
                     resultWithQuestions = it,

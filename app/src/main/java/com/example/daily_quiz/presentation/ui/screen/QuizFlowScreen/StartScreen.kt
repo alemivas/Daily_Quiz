@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun StartScreen(
-    isLoading: Boolean,          // Передаётся из ViewModel
-    isError: Boolean,           // Флаг ошибки
-    onStartQuiz: () -> Unit     // Запуск викторины
+    isLoading: Boolean,
+    isError: Boolean,
+    onStartQuiz: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,7 +40,6 @@ fun StartScreen(
             if (isError) {
                 Text(
                     text = "Ошибка загрузки. Попробуйте ещё раз.",
-//                    color = MaterialTheme.colors.error,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
             }

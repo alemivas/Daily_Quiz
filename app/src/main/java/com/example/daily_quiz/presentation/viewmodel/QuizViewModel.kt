@@ -18,18 +18,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 
 class QuizViewModel(
     private val repository: QuizRepository = QuizRepositoryImpl(),
-//    private val resultDao: QuizResultDao
     private val historyDao: QuizHistoryDao
 ) : ViewModel() {
-
-//    val results: Flow<List<QuizResult>> = resultDao.getAllResults()
 
     // Получение полной истории
     val fullHistory: Flow<List<QuizResultWithQuestions>> = historyDao.getAllResultsWithQuestions()
@@ -60,14 +56,9 @@ class QuizViewModel(
     private val _isError = mutableStateOf(false)
     val isError: State<Boolean> = _isError
 
-//    // Храним все вопросы и ответы
-//    private val _allQuestions = mutableStateListOf<Question>()
-//    private val _userAnswers = mutableMapOf<Int, String>() // key - индекс вопроса, value - ответ
-
     fun loadQuestions() {
         viewModelScope.launch {
             _isLoading.value = true
-//            _isError.value = false
 
             try {
                 _questions.clear()
@@ -80,15 +71,6 @@ class QuizViewModel(
             } finally {
                 _isLoading.value = false
             }
-
-//            try {
-//                val questions = repository.getQuestions()
-//                // TODO: Сохранить вопросы и перейти к викторине
-//            } catch (e: Exception) {
-//                _isError.value = true
-//            } finally {
-//                _isLoading.value = false
-//            }
         }
     }
 
@@ -119,20 +101,6 @@ class QuizViewModel(
         _isQuizCompleted.value = false
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun saveResult(correctAnswers: Int, totalQuestions: Int) {
-//        viewModelScope.launch {
-//            resultDao.insert(
-//                QuizResult(
-//                    date = LocalDateTime.now(),
-////                    correctAnswers = correctAnswers,
-//                    totalCorrect = correctAnswers,
-//                    totalQuestions = totalQuestions
-//                )
-//            )
-//        }
-//    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveFullQuizResult(
         correctAnswers: Int,
@@ -140,15 +108,10 @@ class QuizViewModel(
         userAnswers: Map<Int, String> = _userAnswers,  // key - question index, value - answer
     ) {
         viewModelScope.launch {
-//            // Сохраняем основной результат
-//            val correctCount = questions.countIndexed { index, question ->
-//                userAnswers[index] == question.correctAnswer
-//            }
-
+            // Сохраняем основной результат
             val resultId = historyDao.insertResult(
                 QuizResult(
                     date = LocalDateTime.now(),
-//                    totalCorrect = correctCount,
                     totalCorrect = correctAnswers,
                     totalQuestions = questions.size
                 )
@@ -168,23 +131,6 @@ class QuizViewModel(
 
             historyDao.insertQuestions(quizQuestions)
         }
-    }
-
-//    fun getResultById(resultId: Int): QuizResultWithQuestions? {
-//        // Для простоты - берем из кеша (если history уже загружен)
-//        return _cachedHistory.value?.find { it.result.id == resultId }
-//    }
-
-//    // Добавляем кеширование:
-//    private val _cachedHistory = MutableStateFlow<List<QuizResultWithQuestions>?>(null)
-//    val fullHistory: Flow<List<QuizResultWithQuestions>> = historyDao.getAllResultsWithQuestions()
-//        .onEach { _cachedHistory.value = it } // Кешируем результаты
-//        .shareIn(viewModelScope, SharingStarted.Lazily, replay = 1)
-
-    suspend fun getResultById(resultId: Int): QuizResultWithQuestions? {
-        return historyDao.getAllResultsWithQuestions()
-            .firstOrNull()
-            ?.find { it.result.id == resultId }
     }
 
     private val _currentResult = MutableStateFlow<QuizResultWithQuestions?>(null)

@@ -6,8 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-//@Database(entities = [QuizResult::class], version = 1)
-
 @Database(
     entities = [QuizResult::class, QuizQuestion::class],
     version = 3,
@@ -16,7 +14,6 @@ import androidx.room.TypeConverters
 
 @TypeConverters(Converters::class) // Добавляем конвертеры
 abstract class QuizDatabase : RoomDatabase() {
-//    abstract fun resultDao(): QuizResultDao
     abstract fun historyDao(): QuizHistoryDao
 
     companion object {
