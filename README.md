@@ -10,6 +10,10 @@
 
 ![Видео](screenshots/Screen_recording.mp4)
 
+
+https://github.com/user-attachments/assets/55d1893f-271f-4721-8104-f40a57b27dab
+
+
 ## 📌 Функционал
 
 - 🎯 Прохождение викторины (5 вопросов)
