@@ -22,7 +22,6 @@ data class QuizQuestion(
     val correctAnswer: String,
     val userAnswer: String,
     val isCorrect: Boolean,
-
     @ColumnInfo(name = "all_answers")
     @TypeConverters(Converters::class)
     val allAnswers: List<String>

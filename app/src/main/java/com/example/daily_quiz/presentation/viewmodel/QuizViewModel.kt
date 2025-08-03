@@ -30,13 +30,12 @@ class QuizViewModel(
     // Получение полной истории
     val fullHistory: Flow<List<QuizResultWithQuestions>> = historyDao.getAllResultsWithQuestions()
 
-    private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
-
     // Состояния
     private val _questions = mutableStateListOf<Question>()
     private val _currentQuestionIndex = mutableStateOf(0)
     private val _selectedAnswer = mutableStateOf<String?>(null)
     private val _isQuizCompleted = mutableStateOf(false)
+    private val _userAnswers = mutableMapOf<Int, String>() // Вопрос -> Ответ
 
     // Геттеры
     val currentQuestion: Question?
@@ -59,7 +58,6 @@ class QuizViewModel(
     fun loadQuestions() {
         viewModelScope.launch {
             _isLoading.value = true
-
             try {
                 _questions.clear()
                 _questions.addAll(repository.getQuestions())
