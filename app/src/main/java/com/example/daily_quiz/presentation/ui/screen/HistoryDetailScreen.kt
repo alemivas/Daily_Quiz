@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -47,7 +48,7 @@ fun HistoryDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Детали прохождения") },
+                title = { Text("Результаты") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Назад")
@@ -126,7 +127,7 @@ fun AnswerItem(
         isSelected && isCorrect -> Color(0xFFE8F5E9).copy(alpha = 0.8f)
         isSelected -> Color(0xFFFFEBEE).copy(alpha = 0.8f)
         isCorrect -> Color(0xFFE8F5E9).copy(alpha = 0.4f)
-        else -> Color.Black
+        else -> Color.White
     }
 
     val borderColor = when {
@@ -157,7 +158,7 @@ fun AnswerItem(
                 isSelected && isCorrect -> Icons.Default.CheckCircle
                 isSelected -> Icons.Default.CheckCircle
                 isCorrect -> Icons.Default.Check
-                else -> Icons.Default.CheckCircle
+                else -> Icons.Default.Close
             },
             contentDescription = null,
             tint = when {

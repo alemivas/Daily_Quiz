@@ -19,8 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.daily_quiz.R
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
@@ -66,18 +68,24 @@ fun ResultScreen(
     ) {
         Text(
             text = "Результаты",
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 32.sp,
         )
 
         Text(
-            text = "Вы ответили правильно на $score из $totalQuestions вопросов",
-            textAlign = TextAlign.Center
-        )
+            modifier = Modifier.padding(bottom = 32.dp),
+            text = "$score из $totalQuestions",
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            )
         Text(
+            modifier = Modifier.padding(bottom = 32.dp),
             text = correctAnswersTitle,
             textAlign = TextAlign.Center
         )
         Text(
+            modifier = Modifier.padding(bottom = 32.dp),
             text = correctAnswersSubTitle,
             textAlign = TextAlign.Center
         )
@@ -94,6 +102,12 @@ fun ResultScreen(
             Text(text = "Начать заново")
         }
 
-        Button(onClick = onHistory) { Text("История") }
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            onClick = onHistory
+        ){
+            Text("История")
+        }
     }
 }

@@ -7,19 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -35,13 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.daily_quiz.data.local.QuizQuestion
 import com.example.daily_quiz.data.local.QuizResult
 import com.example.daily_quiz.data.local.QuizResultWithQuestions
 import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
-import com.example.daily_quiz.utils.cleanHtml
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -138,42 +130,7 @@ private fun HistoryListItem(
                 Text(
                     text = "${result.totalCorrect}/${result.totalQuestions}",
                     fontWeight = FontWeight.Bold,
-                    color = if (result.totalCorrect.toFloat() / result.totalQuestions > 0.7f) {
-                        Color.Green
-                    } else {
-                        Color.Black
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Краткая сводка по вопросам
-            questions.take(2).forEachIndexed { index, question ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                ) {
-                    Icon(
-                        imageVector = if (question.isCorrect) Icons.Default.Check else Icons.Default.Close,
-                        contentDescription = null,
-                        tint = if (question.isCorrect) Color.Green else Color.Red,
-                        modifier = Modifier.size(16.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = question.questionText.cleanHtml(),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-
-            if (questions.size > 2) {
-                Text(
-                    text = "и ещё ${questions.size - 2} вопросов...",
-                    modifier = Modifier.padding(top = 4.dp)
+                    color = Color.Black
                 )
             }
         }
