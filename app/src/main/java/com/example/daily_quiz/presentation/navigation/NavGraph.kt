@@ -3,7 +3,7 @@ package com.example.daily_quiz.presentation.navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -15,8 +15,11 @@ import com.example.daily_quiz.presentation.viewmodel.QuizViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun QuizNavGraph(viewModel: QuizViewModel) {
-    val navController = rememberNavController()
+fun QuizNavGraph(
+    viewModel: QuizViewModel,
+    navController: NavHostController = rememberNavController()
+) {
+//    val navController = rememberNavController()
 //    val viewModel: QuizViewModel = viewModel()
 
     NavHost(
@@ -52,7 +55,7 @@ fun QuizNavGraph(viewModel: QuizViewModel) {
 
         composable("history") {
             HistoryScreen(
-                viewModel = viewModel(),
+                viewModel = viewModel,
                 onBack = { navController.popBackStack() }
             )
         }
